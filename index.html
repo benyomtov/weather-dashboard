@@ -18,7 +18,7 @@
                 <form class="container text-center">
                     <label class="mx-auto" for="search">Search for a City</label><br>
                     <input class="mt-1 mx-auto" type="text" id="search" name="search"><br>
-                    <input class="mt-2 mx-auto" type="submit" value="Search">
+                    <input class="mt-2 mx-auto" id="search-button" type="submit" value="Search">
                 </form>
             </div>
             <hr>
@@ -28,7 +28,7 @@
         </section>
         <section class="right-div col-10">
             <div class="current-weather border">
-                <h2 class="city-and-date">Atlanta (9/13/2022)</h2>
+                <h2 class="city-and-date"></h2>
                 <img class="current-weather-icon">
                 <div class="current-weather-conditions">
                     <p id="current-temp">Temp:</p>
@@ -39,7 +39,7 @@
             <h3 class="mt-3">5-Day-Forecast:</h3>
             <div class="5-day-forecast row">
                 <div class="forecast-weather-1 col-2 border mx-1">
-                    <h2 class="date-1">9/14/2022</h2>
+                    <h2 class="date-1"></h2>
                     <img class="weather-icon-1">
                     <div class="weather-conditions-1">
                         <p id="temp-1">Temp:</p>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="forecast-weather-2 col-2 border mx-1">
-                    <h2 class="date-2">9/15/2022</h2>
+                    <h2 class="date-2"></h2>
                     <img class="weather-icon-2">
                     <div class="weather-conditions-2">
                         <p id="temp-2">Temp:</p>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="forecast-weather-3 col-2 border mx-1">
-                    <h2 class="date-3">9/16/2022</h2>
+                    <h2 class="date-3"></h2>
                     <img class="weather-icon-3">
                     <div class="weather-conditions-3">
                         <p id="temp-3">Temp:</p>
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="forecast-weather-4 col-2 border mx-1">
-                    <h2 class="date-4">9/17/2022</h2>
+                    <h2 class="date-4"></h2>
                     <img class="weather-icon-4">
                     <div class="weather-conditions-4">
                         <p id="temp-4">Temp:</p>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="forecast-weather-5 col-2 border mx-1">
-                    <h2 class="date-5">9/18/2022</h2>
+                    <h2 class="date-5"></h2>
                     <img class="weather-icon-5">
                     <div class="weather-conditions-5">
                         <p id="temp-5">Temp:</p>
@@ -85,6 +85,8 @@
                 </div>
             </div>
         </section>
-    </div>    
+    </div>   
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
