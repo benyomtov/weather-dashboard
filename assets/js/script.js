@@ -7,9 +7,10 @@ var todayFormatted = today.format("MM/DD/YYYY");
 
 function getAPI(event) {
     event.preventDefault();
+    event.stopPropagation();
+
     var userSearch = document.getElementById("search");
     var userCity = userSearch.value;
-
     console.log(userCity);
 
     var requestURLCurrent = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity  + "&units=imperial&appid=9c912d68d286bd314c387d098a8da8ed";
@@ -39,7 +40,26 @@ function getAPI(event) {
         var currentHumidity = data.main.humidity;
         var currentHumidityDisplay = document.getElementById("current-humidity");
         currentHumidityDisplay.textContent = "Humidity: " + currentHumidity + "%";
-        
+
+
+        var previousSearchDiv = document.querySelector(".previous-search-div");
+
+    
+        var savedSearch = document.createElement("button");
+        var lineBreak = document.createElement("br");
+        savedSearch.textContent = cityName;
+    
+        previousSearchDiv.appendChild(savedSearch);
+        previousSearchDiv.appendChild(lineBreak);
+
+        savedSearch.addEventListener("click", function(event) {
+            event.stopPropagation;
+            var reInput = this.textContent;
+            userSearch.value = reInput;
+            getAPI(event);
+            previousSearchDiv.removeChild(savedSearch);
+            previousSearchDiv.removeChild(lineBreak);
+        })
 
     });
 
@@ -79,7 +99,15 @@ function getAPI(event) {
         }
     });
 
+
+
+
+
+
 }
 
 
 searchButton.addEventListener("click", getAPI);
+
+
+
