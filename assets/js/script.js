@@ -44,11 +44,21 @@ function getAPI(event) {
 
         var previousSearchDiv = document.querySelector(".previous-search-div");
 
-    
         var savedSearch = document.createElement("button");
         var lineBreak = document.createElement("br");
         savedSearch.textContent = cityName;
-    
+        savedSearch.setAttribute("class", cityName + " saved-searches");
+        lineBreak.setAttribute("class", cityName + " saved-searches");
+
+        var savedSearches = document.querySelectorAll(".saved-searches");
+
+        for (var i = 0; i < savedSearches.length; i++) {
+            if (savedSearches[i].textContent == cityName) {
+                document.getElementsByClassName(cityName).remove();
+
+            }
+        }
+
         previousSearchDiv.appendChild(savedSearch);
         previousSearchDiv.appendChild(lineBreak);
 
@@ -99,13 +109,7 @@ function getAPI(event) {
         }
     });
 
-
-
-
-
-
 }
-
 
 searchButton.addEventListener("click", getAPI);
 
