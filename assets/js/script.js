@@ -3,15 +3,53 @@ var searchButton = document.getElementById("search-button");
 var today = dayjs();
 var todayFormatted = today.format("MM/DD/YYYY");
 
+var cityArray = [];
+
+var savedArray = localStorage.getItem("saved-cities");
+var savedArrayFormatted = JSON.parse(savedArray);
+
+if (savedArray != null) {
+    cityArray = savedArrayFormatted;
+}
+
+function loadSave() {
+
+    var loadUserSearch = document.getElementById("search")
+   
+    for (var a = 0; a < cityArray.length; a++) {
+        var thisCity = cityArray[a];
+        var savedSearch = document.createElement("button");
+        savedSearch.textContent = thisCity;
+        var lineBreak = document.createElement("br");
+        savedSearch.setAttribute("class", thisCity + " saved-searches");
+        lineBreak.setAttribute("class", thisCity + " saved-searches");
+        var previousSearchDiv = document.querySelector(".previous-search-div");
+        previousSearchDiv.appendChild(savedSearch);
+        previousSearchDiv.appendChild(lineBreak); 
+
+        savedSearch.addEventListener("click", function(event) {
+            event.stopPropagation;
+    
+            var reInput = this.textContent;
+    
+            loadUserSearch.value = reInput;
+    
+            getAPI(event);
+        });
+    }
+}
+
+loadSave();
 
 
 function getAPI(event) {
     event.preventDefault();
     event.stopPropagation();
 
+    
+
     var userSearch = document.getElementById("search");
     var userCity = userSearch.value;
-    console.log(userCity);
 
     var requestURLCurrent = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity  + "&units=imperial&appid=9c912d68d286bd314c387d098a8da8ed";
     fetch(requestURLCurrent)
@@ -19,7 +57,6 @@ function getAPI(event) {
       return response.json();
     })
     .then(function (data) {
-        console.log(data);
 
         var cityName = data.name;
         var cityAndDate = document.querySelector(".city-and-date");
@@ -52,24 +89,66 @@ function getAPI(event) {
 
         var savedSearches = document.querySelectorAll(".saved-searches");
 
-        for (var i = 0; i < savedSearches.length; i++) {
-            if (savedSearches[i].textContent == cityName) {
-                document.getElementsByClassName(cityName).remove();
+        if (cityArray != false ) {
+            for (var i = 0; i < savedSearches.length; i++) {
+                if (savedSearches[i].textContent == cityName) {
+                    
+                    var cities = document.querySelectorAll("." + cityName);
 
+                    for (var k = 0; k < cities.length; k++) {
+                        cities[k].remove();
+                    }
+                }
             }
+    
+            cityArray = cityArray.filter(function(duplicateCity){ 
+                 return !duplicateCity.includes(cityName); 
+            });       
         }
 
         previousSearchDiv.appendChild(savedSearch);
+        savedSearch.display = "block";
         previousSearchDiv.appendChild(lineBreak);
+        lineBreak.display = "block";
+
+        cityArray.push(cityName);
+        var cityArrayFormatted = JSON.stringify(cityArray);
+        localStorage.setItem("saved-cities", cityArrayFormatted);
 
         savedSearch.addEventListener("click", function(event) {
             event.stopPropagation;
+
             var reInput = this.textContent;
+
             userSearch.value = reInput;
+
+            for (var j = 0; j < cityArray.length; j++) {
+                
+                if (cityArray[j] == reInput) {
+                    function arrayRemove(arr, value) { 
+        
+                        return arr.filter(function(duplicateCity){ 
+                            return duplicateCity != value; 
+                        });
+                    }
+
+                    cityArray = arrayRemove(cityArray, reInput);
+                    
+                }
+            }
+
+
+            var cityArrayFormatted = JSON.stringify(cityArray);
+            localStorage.setItem("saved-cities", cityArrayFormatted);
+
             getAPI(event);
+
+            
+
+
             previousSearchDiv.removeChild(savedSearch);
             previousSearchDiv.removeChild(lineBreak);
-        })
+        });
 
     });
 
@@ -79,7 +158,7 @@ function getAPI(event) {
       return response.json();
     })
     .then(function (data) {
-        console.log(data);
+
         var counter = 1;
         for (var i = 0; i < data.list.length; i += 8) {
 
@@ -89,7 +168,6 @@ function getAPI(event) {
             thisDayDisplay.textContent = thisDayFormatted;
 
             var icon = data.list[i].weather[0].icon;
-            console.log(icon);
             var thisIconDisplay = document.querySelector(".weather-icon-" + counter);
             thisIconDisplay.setAttribute("src", "http://openweathermap.org/img/wn/" + icon + ".png");
             
@@ -112,6 +190,18 @@ function getAPI(event) {
 }
 
 searchButton.addEventListener("click", getAPI);
+
+var deleteButton = document.getElementById("delete-button");
+
+deleteButton.addEventListener("click", function() {
+    localStorage.clear();
+    cityArray = [];
+    var savedSearches = document.querySelectorAll(".saved-searches");
+    for (var z = 0; z < savedSearches.length; z++) {
+        savedSearches[z].remove();
+    }
+
+});
 
 
 

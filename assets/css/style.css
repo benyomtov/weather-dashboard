@@ -26,3 +26,14 @@
     width: 100%;
     border-radius: 25px;
 }
+
+#delete-button {
+    flex-basis: auto;
+    flex-grow: 15;
+    margin: 3px;
+    padding: auto;
+    width: 100%;
+    border-radius: 25px;
+    background-color: gray;
+    color: whitesmoke;
+}
